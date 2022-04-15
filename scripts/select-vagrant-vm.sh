@@ -19,7 +19,11 @@ vms=$(ls $vms_dir)
 
 for dir in $vms; do
     if [ "$dir" == "$1" ]; then
-        cd $vms_dir/$dir
+        vm_dir=$vms_dir/$dir
+
+        cd $vm_dir
+
+        mkdir -p $vm_dir/data
 
         vagrant $2
     fi
