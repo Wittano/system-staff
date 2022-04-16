@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Import global variables
+      include_vars:
+        file: "env.yml"
+        name: global
+    - name: Install Neovim and dependencies on Arch
+      pacman:
+        name:
+        - curl
+        - neovim
+        - nodejs
+        - prettier
+      become: yes
+      when: ansible_facts["os_family"] == "Archlinux"
+    - name: Install Debian and dependencies Debian
+      apt:
+        name:
+        - curl
+        - nodejs
+        - npm
+        - neovim
+      become: yes
+      when: ansible_facts["os_family"] == "Debian"
+    - name: Install prettier on Debian
+      npm:
+        name: prettier
+        global: yes
+      when: ansible_facts["os_family"] == "Debian"
+    - name: Install vim-plug
+      command: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    - name: Install plugins
+      command: nvim -c ':PlugInstall' -c 'qa!'
+    - name: Install coc.nvim extensions
+      command: nvim -c ':CocInstall coc-json coc-clangd coc-cmake coc-docker coc-sh coc-html coc-json coc-tsserver coc-yaml coc-prettier' -c ':qa!'
