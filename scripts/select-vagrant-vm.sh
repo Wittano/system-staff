@@ -25,6 +25,11 @@ for dir in $vms; do
 
         mkdir -p $vm_dir/data
 
-        vagrant $2
+        if [ $2 == 'rebuild' ]; then
+            vagrant destroy
+            vagrant up
+        else
+            vagrant $2
+        fi
     fi
 done
