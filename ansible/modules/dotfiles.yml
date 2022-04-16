@@ -1,0 +1,15 @@
+- name: Check if exist project directory
+  stat:
+    path: "{{ global.project_config_dir }}"
+  register: project_dir
+- name: Create project directory
+  file:
+    path: "{{ global.project_config_dir }}"
+    state: directory
+  when:
+    - not project_dir.stat.exists
+- name: Clone wittano-dotfiles project
+  git:
+    clone: yes
+    dest: "{{ global.dotfiles_dir }}"
+    repo: https://github.com/Wittano/dotfiles

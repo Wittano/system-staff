@@ -1,5 +1,7 @@
 ---
 - hosts: localhost
+  vars:
+    use_yadm: yes
 
   tasks:
     - name: Import global variables
@@ -12,10 +14,11 @@
         - curl
         - neovim
         - nodejs
+        - npm
         - prettier
       become: yes
       when: ansible_facts["os_family"] == "Archlinux"
-    - name: Install Debian and dependencies Debian
+    - name: Install Debian and dependencies on Debian
       apt:
         name:
         - curl
@@ -28,7 +31,21 @@
       npm:
         name: prettier
         global: yes
+      become: yes
       when: ansible_facts["os_family"] == "Debian"
+    - name: Import YADM tasks
+      import_tasks: modules/yadm.yml
+      when: use_yadm
+    - name: Import wittano-dotfiles
+      import_tasks: modules/dotfiles.yml
+      when: not use_yadm
+    - name: Link neovime config from wittano-dotfiles to config directory
+      file:
+        src: "{{ global.config_dir }}/.config/nvim"
+        dest: "{{ global.home }}/.config/nvim"
+        owner: "{{ global.user }}"
+        state: link
+      when: not use_yadm
     - name: Install vim-plug
       command: sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     - name: Install plugins

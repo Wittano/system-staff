@@ -9,22 +9,9 @@
       include_vars:
         file: "env.yml"
         name: global
-    - name: Install YADM on Arch Linux
-      pacman:
-        name:
-         - yadm
-      become: yes
-      when: 
-        - use_yadm
-        - ansible_facts['os_family'] == "Archlinux"
-    - name: Install YADM on Debian
-      apt:
-        name:
-         - yadm
-      when: 
-        - use_yadm
-        - ansible_facts['os_family'] == "Debian"
-      become: yes
+    - name: Import YADM tasks
+      import_tasks: modules/yadm.yml
+      when: use_yadm
     - name: Install openbox dependences on Arch Linux
       pacman:
         name:
@@ -101,28 +88,6 @@
         path: "{{ global.home }}/.config"
         state: directory
       when: not config.stat.exists
-    - name: Check if exist project directory
-      stat:
-        path: "{{ global.project_config_dir }}"
-      register: project_dir
-      when: use_yadm
-    - name: Create project directory
-      file:
-        path: "{{ global.project_config_dir }}"
-        state: directory
-      when:
-        - not project_dir.stat.exists
-    - name: Clone wittano-dotfiles project
-      git:
-        clone: yes
-        dest: "{{ global.dotfiles_dir }}"
-        repo: https://github.com/Wittano/dotfiles
-    - name: Set YADM configuration
-      shell: (yadm init && yadm remote add origin https://github.com/Wittano/dotfiles) || echo "YADM manager is initialized"
-      when: use_yadm
-    - name: Update dotfiles
-      shell: yadm pull origin main
-      when: use_yadm
     - name: Check if openbox directory is exist
       stat:
         path: "{{ global.home }}/.config/openbox"

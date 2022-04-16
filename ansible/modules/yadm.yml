@@ -1,0 +1,16 @@
+- name: Install yadm on Debian
+  apt: 
+    name: yadm
+  become: yes
+  when: ansible_facts['os_family'] == 'Debian'
+- name: Install yadm on Arch
+  pacman:
+    name: yadm
+  become: yes
+  when: ansible_facts['os_family'] == 'Archlinux'
+- name: Set YADM configuration
+  shell: (yadm init && yadm remote add origin https://github.com/Wittano/dotfiles) || echo "YADM manager is initialized"
+  when: use_yadm
+- name: Update dotfiles
+  shell: yadm pull origin main
+  when: use_yadm
