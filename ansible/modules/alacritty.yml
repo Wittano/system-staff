@@ -14,7 +14,7 @@
   register: alacritty
 - name: Link alacritty config
   file:
-    src: "{{ global.config_dir }}/.config/alacritty"
+    src: "{{ global.dotfiles_dir }}/.config/alacritty"
     dest: "{{ global.home }}/.config/alacritty"
     state: link
     owner: "{{ global.user }}"

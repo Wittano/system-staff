@@ -14,7 +14,7 @@
   register: terminator
 - name: Link terminator config
   file:
-    src: "{{ global.config_dir }}/.config/terminator"
+    src: "{{ global.dotfiles_dir }}/.config/terminator"
     dest: "{{ global.home }}/.config/terminator"
     state: link
     owner: "{{ global.user }}"

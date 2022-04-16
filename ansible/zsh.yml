@@ -30,7 +30,7 @@
       register: zsh_config
     - name: Depoly zsh config
       file:
-        src: "{{ global.config_dir }}/.zshrc"
+        src: "{{ global.dotfiles_dir }}/.zshrc"
         dest: "{{ global.home }}/.zshrc"
         owner: "{{ global.user }}"
         state: link

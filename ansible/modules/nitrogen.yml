@@ -14,7 +14,7 @@
   register: nitrogen
 - name: Link nitrogen config
   file:
-    src: "{{ global.config_dir }}/.config/nitrogen"
+    src: "{{ global.dotfiles_dir }}/.config/nitrogen"
     dest: "{{ global.home }}/.config/nitrogen"
     state: link
   when: not nitrogen.stat.exists
@@ -24,7 +24,7 @@
   register: wallpapaer
 - name: Link wallpapaers directory
   file:
-    src: "{{ global.config_dir }}/wallpaper"
+    src: "{{ global.dotfiles_dir }}/wallpaper"
     dest: "{{ global.home }}/wallpaper"
     state: link
   when: not wallpapaer.stat.exists

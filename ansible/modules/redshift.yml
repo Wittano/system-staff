@@ -10,11 +10,11 @@
   become: true
 - name: Check if redshift config exist
   stat:
-    path: "{{ global.config_dir }}/.config/redshift.conf"
+    path: "{{ global.dotfiles_dir }}/.config/redshift.conf"
   register: tint2
 - name: Link redshift config
   file:
-    src: "{{ global.config_dir }}/.config/redshift.conf"
+    src: "{{ global.dotfiles_dir }}/.config/redshift.conf"
     dest: "{{ global.home }}/.config/redshift.conf"
     owner: "{{ global.user }}"
     state: link

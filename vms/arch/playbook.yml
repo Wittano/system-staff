@@ -4,9 +4,13 @@
   become_method: sudo
 
   tasks:
+    - name: Update pacman
+      pacman:
+        upgrade: yes
     - name: Install essentially packages
       pacman:
         name:
+          - base-devel
           - git
           - ansible
           - vim

@@ -14,7 +14,7 @@
   register: rofi
 - name: Link rofi configuration
   file:
-    src: "{{ global.config_dir }}/.config/rofi"
+    src: "{{ global.dotfiles_dir }}/.config/rofi"
     dest: "{{ global.home }}/.config/rofi"
     owner: "{{ global.user }}"
     state: link
