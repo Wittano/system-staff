@@ -5,8 +5,8 @@
 
   tasks:
     - name: Update pacman
-      pacman:
-        upgrade: yes
+      command: pacman -Syu --noconfirm
+      become: yes
     - name: Install essentially packages
       pacman:
         name:
