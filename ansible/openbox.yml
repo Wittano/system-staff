@@ -137,7 +137,8 @@
       when: 
         - not use_yadm
         - not openbox.stat.exists
-    # TODO: Added openbox-menu installation from AUR. https://github.com/kewlfft/ansible-aur
+    - name: Install openbox-menu on ArchLinux
+      command: yay --noconfirm --noprogressbar --needed --noconfirm --sync openbox-menu
     - name: Import dracula theme
       import_tasks: themes/dracula.yml
       when: dracula_theme
