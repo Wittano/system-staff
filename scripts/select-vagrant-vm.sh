@@ -17,6 +17,17 @@ fi
 vms_dir=$HOME/projects/config/system/vms
 vms=$(ls $vms_dir)
 
+if [ "$1" == "all" ]; then
+    for dir in $vms; do
+        echo "$dir - virutal machine"
+        cd $vms_dir/$dir
+
+        vagrant $2
+    done
+
+    exit 0
+fi
+
 for dir in $vms; do
     if [ "$dir" == "$1" ]; then
         vm_dir=$vms_dir/$dir
