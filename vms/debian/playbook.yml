@@ -11,3 +11,12 @@
           - ansible
           - vim
         update_cache: yes
+    - name: Create ansible config directory
+      command: mkdir -p /etc/ansible
+    - name: Set Ansible pretty debug output
+      blockinfile:
+        path: /etc/ansible/ansible.cfg
+        create: yes
+        block: |
+          [defaults]
+          stdout_callback = debug
