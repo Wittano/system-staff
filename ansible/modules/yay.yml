@@ -1,0 +1,19 @@
+- name: Check if yay manager exists
+  stat:
+    path: /usr/bin/yay
+  register: yay
+  when: ansible_facts['os_family'] == "Archlinux"
+- name: Clone yay package manager for ArchLinux
+  git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: /tmp/yay
+  when:
+    - ansible_facts['os_family'] == "Archlinux"
+    - not yay.stat.exists
+- name: Install yay
+  command:
+    chdir: /tmp/yay
+    cmd: makepkg -si --noconfirm
+  when:
+    - ansible_facts['os_family'] == "Archlinux"
+    - not yay.stat.exists
