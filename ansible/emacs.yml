@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  vars:
+    wakatime_dest: /tmp/wakatime-cli
+    use_yadm: yes
+
+  tasks:
+    - name: Import global variables
+      include_vars:
+        file: "env.yml"
+        name: global
+    - name: Import YADM tasks
+      import_tasks: modules/yadm.yml
+      when: use_yadm
+    - name: Install emacs and dependencies on Arch
+      pacman:
+        name: emacs
+      become: yes
+      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install yay on Arch
+      import_tasks: modules/yay.yml
+      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install wakatime from AUR
+      command: yay --noconfirm --noprogressbar --needed --noconfirm -S wakatime-cli-bin
+      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install emacs and dependencies on Debian
+      apt:
+        name:
+          - emacs
+      become: true
+      when: ansible_facts['os_family'] == 'Debian'
+      # TODO Add wakatime-cli for Debian, when golang 1.18 will be avaiable
+    - name: Clone Doom emacs
+      git:
+        clone: yes
+        dest: "{{ global.home }}/.emacs.d"
+        repo: https://github.com/hlissner/doom-emacs
+        depth: 1
+        force: yes
+    - name: Install Doom emacs
+      command: "{{ global.home }}/.emacs.d/bin/doom -y install"
