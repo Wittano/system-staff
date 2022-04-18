@@ -1,0 +1,63 @@
+---
+- hosts: localhost
+  vars:
+    use_yadm: yes
+  tasks:
+    - name: Install bspwm and dependences on Arch
+      pacman:
+        name:
+          - bspwm
+          - syncthing
+          - redshift
+          - nitrogen
+          - nitrogen
+          - sxhkd
+          - wmname
+          - flameshot
+          - rofi
+          - terminator
+          - lxappearance
+          - ttf-font-awesome
+          - ttf-dejavu
+      when: ansible_facts['os_family'] == 'Archlinux'
+      become: yes
+    - name: Install AUR repository for Arch
+      import_tasks: modules/yay.yml
+      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install polybar from AUR
+      command: yay --noconfirm --noprogressbar --needed --noconfirm --sync polybar
+      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install i3lock from AUR
+      command: yay --noconfirm --noprogressbar --needed --noconfirm --sync i3lock-fancy-git
+      when: ansible_facts['os_family'] == 'Archlinux'
+    - name: Install bspwm and dependences on Debian
+      apt:
+        name:
+          - bspwm
+          - syncthing
+          - redshift
+          - nitrogen
+          - compiz
+          - nitrogen
+          - sxhkd
+          - polybar
+          - wmname
+          - flameshot
+          - i3lock-fancy
+          - rofi
+          - terminator
+          - lxappearance
+          - fonts-font-awesome
+          - unzip
+      when: ansible_facts['os_family'] == 'Debian'
+      become: yes
+    - name: Install font-awesome 5
+      unarchive:
+        remote_src: yes
+        src: https://use.fontawesome.com/releases/v5.15.4/fontawesome-free-5.15.4-desktop.zip
+        dest: /usr/local/share/fonts/
+      become: yes
+      when: ansible_facts['os_family'] == 'Debian'
+    - name: Install config from YADM
+      import_tasks: modules/yadm.yml
+      when: use_yadm
