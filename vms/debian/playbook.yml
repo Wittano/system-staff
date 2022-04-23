@@ -4,15 +4,25 @@
   become_method: sudo
 
   tasks:
+    - name: Replace bullseye repo by unstable(sid) repo
+      replace:
+        path: /etc/apt/sources.list
+        regexp: "bullseye main$"
+        replace: "sid main contrib non-free"
+    - name: Upgrade system
+      apt:
+        update_cache: yes
+        upgrade: dist
     - name: Install essentially packages
       apt:
         name:
           - git
           - ansible
           - vim
-        update_cache: yes
     - name: Create ansible config directory
-      command: mkdir -p /etc/ansible
+      file:
+        path: /etc/ansible
+        state: directory
     - name: Set Ansible pretty debug output
       blockinfile:
         path: /etc/ansible/ansible.cfg
