@@ -12,14 +12,3 @@
         - ansible
         - vim
       state: latest
-  - name: Create ansible config directory
-    file:
-      path: /etc/ansible
-      state: directory
-  - name: Set ansible logs in DEBUG mode
-    blockinfile:
-      path: /etc/ansible/ansible.cfg
-      create: yes
-      block: |
-        [defaults]
-        stdout_callback = debug
