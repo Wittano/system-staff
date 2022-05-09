@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Upgrade system
+    apt:
+      update_cache: yes
+      upgrade: dist
+  - name: Install essentially packages
+    apt:
+      name:
+        - git
+        - ansible
+        - vim
+        - docker
+        - docker.io
+  - name: Install minikube
+    apt:
+      deb: https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+  - name: Add default user to docker group
+    command: usermod -aG docker vagrant
+  - name: Reload user groups
+    meta: reset_connection
+  - name: Start minikube
+    command: minikube start
+    become: no
+  - name: Add alias for kubctl
+    lineinfile:
+      create: yes
+      path: /home/vagrant/.bash_aliases
+      line: alias kubectl="minikube kubectl --"
+    become: no
