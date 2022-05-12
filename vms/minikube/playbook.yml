@@ -12,6 +12,7 @@
         - git
         - ansible
         - vim
+        - curl
         - docker
         - docker.io
   - name: Install minikube
@@ -30,3 +31,9 @@
       path: /home/vagrant/.bash_aliases
       line: alias kubectl="minikube kubectl --"
     become: no
+  - name: Add cron job to autostarting minikube
+    cron:
+      name: Run minikube
+      special_time: reboot
+      job: "minikube start"
+      user: vagrant
