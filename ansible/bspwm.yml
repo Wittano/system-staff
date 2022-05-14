@@ -17,8 +17,8 @@
           - rofi
           - terminator
           - lxappearance
-          - ttf-font-awesome
           - ttf-dejavu
+          - unzip
       when: ansible_facts['os_family'] == 'Archlinux'
       become: yes
     - name: Install AUR repository for Arch
@@ -57,7 +57,6 @@
         src: https://use.fontawesome.com/releases/v5.15.4/fontawesome-free-5.15.4-desktop.zip
         dest: /usr/local/share/fonts/
       become: yes
-      when: ansible_facts['os_family'] == 'Debian'
     - name: Install config from YADM
       import_tasks: modules/yadm.yml
       when: use_yadm
