@@ -1,0 +1,11 @@
+home/wittano
+dev/*
+proc/*
+sys/*
+tmp/*
+run/*
+mnt/*
+media/*
+lost+found
+var/cache/pacman/pkg/*
+var/lib/pacman/*

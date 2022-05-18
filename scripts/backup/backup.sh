@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$(command -v rsync)" ]; then
-    echo "rsync not found";
+    echo "rsync not found"
     exit 1
 fi
 
@@ -14,4 +14,5 @@ fi
 
 CURRENT_DIR=$(dirname "$0")
 
-rsync -aAXv --delete --exclude-from="${CURRENT_DIR}/exclude.txt" "$HOME" /mnt/backup
+rsync -aAX --delete --exclude-from="${CURRENT_DIR}/exclude.txt" "$HOME" /mnt/backup
+rsync -aAX --delete --exclude-from="${CURRENT_DIR}/sys-exclude.txt" / /mnt/backup/system
