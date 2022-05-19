@@ -1,3 +1,4 @@
 vms/**/.vagrant
 vms/**/data/**
 *.log
+.idea/
