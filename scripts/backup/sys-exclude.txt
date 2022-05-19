@@ -9,3 +9,5 @@ media/*
 lost+found
 var/cache/pacman/pkg/*
 var/lib/pacman/*
+var/lib/boinc/projects/*
+var/lib/boinc/slots/*

@@ -15,4 +15,4 @@ fi
 CURRENT_DIR=$(dirname "$0")
 
 rsync -aAX --delete --exclude-from="${CURRENT_DIR}/exclude.txt" "$HOME" /mnt/backup
-rsync -aAX --delete --exclude-from="${CURRENT_DIR}/sys-exclude.txt" / /mnt/backup/system
+sudo rsync -aAX --delete --exclude-from="${CURRENT_DIR}/sys-exclude.txt" / /mnt/backup/system
