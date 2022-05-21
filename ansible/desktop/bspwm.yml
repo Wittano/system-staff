@@ -47,7 +47,6 @@
           - rofi
           - terminator
           - lxappearance
-          - fonts-font-awesome
           - unzip
       when: ansible_facts['os_family'] == 'Debian'
       become: yes
