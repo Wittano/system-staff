@@ -1,0 +1,17 @@
+- name: Check if Vivalid browser is installed
+  stat:
+    path: /usr/bin/vivaldi-stable
+  register: vivaldi
+- name: Install Vivalid dependences on ArchLinux
+  pacman:
+    name: vivaldi
+  when:
+    - ansible_facts['os_family'] == "ArchLinux"
+    - not vivaldi.stat.exists
+- name: Install Vivalid browser on Debian
+  apt:
+    deb: https://downloads.vivaldi.com/stable/vivaldi-stable_5.1.2567.57-1_amd64.deb
+  become: true
+  when:
+    - ansible_facts['os_family'] == "Debian"
+    - not vivaldi.stat.exists

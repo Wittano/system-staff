@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  vars:
+    use_yadm: yes
+  tasks:
+    - name: Import global variables
+      include_vars:
+        file: "env.yml"
+        name: global
+    - name: Import YADM tasks
+      import_tasks: modules/yadm.yml
+      when: use_yadm
+    - name: Install qtile dependences on ArchLinux
+      pacman:
+        name:
+          - base-devel
+          - qtile
+          - redshift
+          - nitrogen
+          - terminator
+          - flameshot
+          - discord
+          - rofi
+      become: true
+      when:
+        ansible_facts['os_family'] == "Archlinux"
+        # TODO Add spotify
+    - name: Install spotify from AUR
+    - name: Install qtile dependences on Debian
+      pacman:
+        name:
+          - qtile
+          - redshift
+          - rofi
+          - terminator
+          - flameshot
+          - nitrogen
+    - name: Install Vivalid on Debian
+      import_tasks: modules/vivaldi.yml
+    # TODO Add spotify for Debian
