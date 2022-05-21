@@ -9,9 +9,10 @@
         pattern: "*.service"
       register: services
     - name: Copy services to systemd services directory
-      copy:
+      file:
         src: "{{ item }}"
-        dest: /etc/systemd/system
+        dest: "/etc/systemd/system/{{ item | split('/') | last }}"
+        state: link
       become: yes
       with_items: "{{ services.files | map(attribute='path') }}"
     - name: Enable services
