@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  vars:
+    services_dir: "{{ lookup('env','HOME') }}/projects/config/system/service"
+  tasks:
+    - name: Get all services from service directory
+      find:
+        paths: "{{ services_dir }}"
+        pattern: "*.service"
+      register: services
+    - name: Copy services to systemd services directory
+      copy:
+        src: "{{ item }}"
+        dest: /etc/systemd/system
+      become: yes
+      with_items: "{{ services.files | map(attribute='path') }}"
+    - name: Enable services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+      become: yes
+      with_items: "{{ services.files | map(attribute='path') | map('split', '/') | map('last') }}"

@@ -8,7 +8,7 @@ Requires=network.target
 [Service]
 Type=oneshot
 User=wittano
-ExecStart=bash $HOME/projects/dotfiles/system/poweroff-raspberry.sh
+ExecStart=bash $HOME/projects/config/system/scripts/poweroff-raspberry.sh
 
 [Install]
 WantedBy=shutdown.target
