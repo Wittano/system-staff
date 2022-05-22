@@ -8,6 +8,12 @@ fi
 
 TABLET=$(xsetwacom list devices | awk '{print $9}')
 
+if [ -n "$1" ]; then
+    MONITOR=$1
+else
+    MONITOR="HEAD-0"
+fi
+
 for i in $TABLET; do
-    xsetwacom --set "${i}" MapToOutput HEAD-0
+    xsetwacom --set "${i}" MapToOutput $MONITOR
 done
