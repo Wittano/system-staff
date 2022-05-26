@@ -2,6 +2,8 @@
 - hosts: all
   become: true
   become_method: sudo
+  vars:
+    is_rolling_release: no
 
   tasks:
     - name: Replace bullseye repo by unstable(sid) repo
@@ -9,6 +11,7 @@
         path: /etc/apt/sources.list
         regexp: "bullseye main$"
         replace: "sid main contrib non-free"
+      when: is_rolling_release
     - name: Upgrade system
       apt:
         update_cache: yes
