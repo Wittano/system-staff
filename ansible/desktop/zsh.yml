@@ -10,6 +10,7 @@
       pacman:
         name:
           - zsh
+          - tmux
           - curl
       become: true
       when: ansible_facts['os_family'] == "Archlinux"
@@ -18,6 +19,7 @@
         name:
           - zsh
           - curl
+          - tmux
       become: true
       when: ansible_facts['os_family'] == "Debian"
     - name: Install 'oh-my-zsh'
