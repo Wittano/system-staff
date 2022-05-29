@@ -81,6 +81,7 @@
         - not openbox.stat.exists
     - name: Install openbox-menu on ArchLinux
       command: yay --noconfirm --noprogressbar --needed --noconfirm --sync openbox-menu
+      when: ansible_facts['os_family'] == "Archlinux"
     - name: Import dracula theme
       import_tasks: themes/dracula.yml
       when: dracula_theme
