@@ -2,3 +2,8 @@ vms/**/.vagrant
 vms/**/data/**
 *.log
 .idea/
+
+etc-pihole/
+etc-dnsmasq.d/
+logs/
+docker/boinc/config/
