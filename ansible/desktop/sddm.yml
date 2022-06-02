@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Import global variables
+    include_vars:
+      file: "env.yml"
+      name: global
+  - name: Install sddm on Debian
+    apt:
+      name:
+        - sddm
+        - git
+    become: yes
+  - name: Download custome theme
+    git:
+      clone: yes
+      dest: /usr/share/sddm/themes/dark
+      repo: https://github.com/Wittano/abstractdark-sddm-theme.git
+    become: yes
+  - name: Set sddm config
+    copy:
+      src: config/sddm.conf
+      dest: /etc/sddm.conf
+    become: yes
+  - name: Set SDDM as default display manager
+    systemd:
+      name: sddm
+      enabled: yes
