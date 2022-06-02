@@ -19,7 +19,7 @@
     become: yes
   - name: Set sddm config
     copy:
-      src: config/sddm.conf
+      src: "{{ playbook_dir }}/config/sddm.conf"
       dest: /etc/sddm.conf
     become: yes
   - name: Set SDDM as default display manager
