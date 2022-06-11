@@ -1,17 +1,31 @@
+############
+# Variables
+############
+
+variable "debug_mode" {
+  default = false
+}
+
 #########
 # Locals
 #########
 
 locals {
-  nginx_config_path = "${path.root}/config/nginx.conf"
+  project = {
+    config_path = "${path.root}/config/nginx.conf"
+  }
+  container = {
+    dir_path    = "/etc/nginx"
+    config_path = "/etc/nginx/nginx.conf"
+  }
 }
 
 #######
 # Data
 #######
 
-data "local_file" "nginx-config" {
-  filename = local.nginx_config_path
+data "local_file" "nginx_config" {
+  filename = local.project.config_path
 }
 
 ############
@@ -32,8 +46,19 @@ resource "docker_container" "nginx" {
   }
 
   upload {
-    file    = "/etc/nginx/nginx.conf"
-    content = data.local_file.nginx-config.content
+    file    = local.container.config_path
+    content = data.local_file.nginx_config.content
   }
+
+  networks_advanced {
+    name = docker_network.nginx_network.name
+  }
+
+  volumes {
+    container_path = local.container.dir_path
+    host_path      = "/opt/terraform/nginx"
+    volume_name    = "nginx-volume"
+  }
+
 }
 

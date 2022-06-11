@@ -17,4 +17,9 @@ resource "docker_container" "rick-roll" {
     internal = 80
     external = 4269
   }
+
+  networks_advanced {
+    name = docker_network.nginx_network.name
+  }
+
 }
