@@ -1,4 +1,7 @@
-resource "docker_network" "nginx_network" {
-  name     = "nginx-gateway-network"
-  internal = false
+resource "docker_network" "gateway_network" {
+  name = "tarfik-network"
+}
+
+resource "docker_network" "public_gateway_network" {
+  name = "gateway-network"
 }
