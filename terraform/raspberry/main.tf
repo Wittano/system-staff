@@ -22,6 +22,19 @@ locals {
     port            = 22
     access_key_path = "$HOME/.ssh/raspberry"
   }
+
+  docker_socket_path = "/var/run/docker.sock"
+
+  pihole = {
+    root_dir = "/opt/terraform/pihole"
+
+    ports = {
+      dns         = 53
+      http        = 80
+      public_http = 81
+      dhcp        = 67
+    }
+  }
 }
 
 ############

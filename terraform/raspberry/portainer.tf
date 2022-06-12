@@ -1,7 +1,3 @@
-locals {
-  docker_socket_path = "/var/run/docker.sock"
-}
-
 resource "docker_image" "poratiner" {
   name         = "portainer/portainer-ce"
   keep_locally = true
@@ -31,6 +27,10 @@ resource "docker_container" "portianer" {
   volumes {
     container_path = "/data"
     volume_name    = "poratiner-data-volume"
+  }
+
+  networks_advanced {
+    name = docker_network.gateway_network.name
   }
 
 }

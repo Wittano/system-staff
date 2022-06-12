@@ -3,57 +3,47 @@ resource "docker_image" "pihole" {
   keep_locally = false
 }
 
-locals {
-  pihole_dir = "/opt/terraform/pihole"
-
-  ports = {
-    dns  = 53
-    http = 80
-    dhcp = 67
-  }
-}
-
 resource "docker_container" "pihole" {
-  name  = "pihole-terra"
+  name  = "pihole-terraform"
   image = docker_image.pihole.latest
 
   env = ["TZ=Europe/Warsaw"]
 
   ports {
-    external = local.ports.dhcp
-    internal = local.ports.dhcp
+    external = local.pihole.ports.dhcp
+    internal = local.pihole.ports.dhcp
     protocol = "udp"
   }
 
   ports {
-    external = local.ports.dns
-    internal = local.ports.dns
+    external = local.pihole.ports.dns
+    internal = local.pihole.ports.dns
     protocol = "udp"
   }
 
   ports {
-    external = local.ports.dns
-    internal = local.ports.dns
+    external = local.pihole.ports.dns
+    internal = local.pihole.ports.dns
   }
 
   ports {
-    external = local.ports.http
-    internal = local.ports.http
+    external = local.pihole.ports.public_http
+    internal = local.pihole.ports.http
   }
 
   volumes {
     container_path = "/etc/pihole"
-    host_path      = "${local.pihole_dir}/etc-pihole"
+    host_path      = "${local.pihole.root_dir}/etc-pihole"
   }
 
   volumes {
     container_path = "/etc/dnsmasq.d"
-    host_path      = "${local.pihole_dir}/etc-dnsmasq.d"
+    host_path      = "${local.pihole.root_dir}/etc-dnsmasq.d"
   }
 
   volumes {
     container_path = "/var/log/pihole"
-    host_path      = "${local.pihole_dir}/logs"
+    host_path      = "${local.pihole.root_dir}/logs"
   }
 
   capabilities {
@@ -61,5 +51,9 @@ resource "docker_container" "pihole" {
   }
 
   restart = "unless-stopped"
+
+  networks_advanced {
+    name = docker_network.gateway_network.name
+  }
 
 }
