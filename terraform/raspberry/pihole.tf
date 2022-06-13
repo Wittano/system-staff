@@ -4,7 +4,7 @@ resource "docker_image" "pihole" {
 }
 
 resource "docker_container" "pihole" {
-  name  = "pihole-terraform"
+  name  = local.pihole.name
   image = docker_image.pihole.latest
 
   env = ["TZ=Europe/Warsaw"]
@@ -51,9 +51,5 @@ resource "docker_container" "pihole" {
   }
 
   restart = "unless-stopped"
-
-  networks_advanced {
-    name = docker_network.gateway_network.name
-  }
 
 }

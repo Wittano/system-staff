@@ -4,19 +4,18 @@ resource "docker_image" "poratiner" {
 }
 
 resource "docker_container" "portianer" {
-  name  = "protainer-ce"
+  name  = local.portainer.name
   image = docker_image.poratiner.latest
 
   restart = "unless-stopped"
 
   ports {
-    external = 8000
-    internal = 8000
+    internal = local.portainer.frontend_port
   }
 
   ports {
-    external = 9443
-    internal = 9443
+    internal = local.portainer.edge_port
+    external = local.portainer.edge_port
   }
 
   volumes {
@@ -26,11 +25,7 @@ resource "docker_container" "portianer" {
 
   volumes {
     container_path = "/data"
-    volume_name    = "poratiner-data-volume"
-  }
-
-  networks_advanced {
-    name = docker_network.gateway_network.name
+    volume_name    = local.portainer.volume_name
   }
 
 }

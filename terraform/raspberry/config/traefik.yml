@@ -1,8 +1,13 @@
-# Docker configuration backend
 providers:
   docker:
-    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.me`)"
 
-# API and dashboard configuration
+entrypoints:
+  web:
+    address: :80
+  websecure:
+    address: :433
+
 api:
+  dashboard: true
   insecure: true

@@ -1,5 +1,5 @@
 data "local_file" "traefik_config" {
-  filename = "${path.root}/config/traefik.yml"
+  filename = local.traefik.config_path
 }
 
 resource "docker_image" "traefik" {
@@ -7,7 +7,7 @@ resource "docker_image" "traefik" {
 }
 
 resource "docker_container" "traefik" {
-  name  = "traefik-gateway"
+  name  = local.traefik.name
   image = docker_image.traefik.latest
 
   networks_advanced {
@@ -21,6 +21,11 @@ resource "docker_container" "traefik" {
   ports {
     external = 8080
     internal = 8080
+  }
+
+  ports {
+    external = 443
+    internal = 443
   }
 
   ports {

@@ -11,9 +11,9 @@ terraform {
   }
 }
 
-############
-# Variables
-############
+#########
+# Locals
+#########
 
 locals {
   ssh = {
@@ -27,12 +27,36 @@ locals {
 
   pihole = {
     root_dir = "/opt/terraform/pihole"
-
+    name     = "pihole-terraform"
     ports = {
       dns         = 53
       http        = 80
       public_http = 81
       dhcp        = 67
+    }
+    domain = "pihole.me"
+  }
+
+  grafana = {
+    name   = "grafana-terraform"
+    port   = 3000
+    domain = "grafana.me"
+  }
+
+  portainer = {
+    name          = "portainer-terraform"
+    volume_name   = "poratiner-data-volume"
+    domain        = "portainer.me"
+    frontend_port = 8000
+    edge_port     = 9000
+  }
+
+  traefik = {
+    name        = "traefik-gateway"
+    config_path = "${path.root}/config/traefik.yml"
+    entrypoints = {
+      http  = "web"
+      https = "websecure"
     }
   }
 }
