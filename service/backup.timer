@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for wittano home directory backup script
+Requires=backup.service
+
+[Timer]
+Unit=backup.service
+OnCalendar=*-*-* 20:00:00
+
+[Install]
+WantedBy=timers.target
