@@ -5,7 +5,7 @@ Wants=backup.timer
 [Service]
 Type=oneshot
 User=wittano
-ExecStart=/bin/bash $HOME/project/system/scripts/backup/backup.sh
+ExecStart=/bin/bash /home/wittano/projects/config/system/scripts/backup/backup.sh
 
 [Install]
 WantedBy=multi-user.target
